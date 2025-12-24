@@ -1,0 +1,17 @@
+services:
+  thecouncilai-bot:
+    image: ghcr.io/thecouncilaiglobal-coder/thecouncilai-bot:stable
+    container_name: thecouncilai-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/data
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: thecouncilai-watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 --cleanup thecouncilai-bot
